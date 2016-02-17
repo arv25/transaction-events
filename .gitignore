@@ -1,0 +1,3 @@
+node-events-reader/dist/*
+node-events-reader/node_modules/*
+*.iml
