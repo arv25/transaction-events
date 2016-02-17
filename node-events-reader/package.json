@@ -1,0 +1,13 @@
+{
+  "name": "node-events-reader",
+  "version": "1.0.0",
+  "description": "Node.js code to read events for a store and status code over a date range.",
+  "devDependencies": {
+    "grunt": "0.4.*",
+    "grunt-aws-lambda": "0.*.*",
+    "aws-sdk": "2.2.36"
+  },
+  "main": "index.js",
+  "author": "arv25",
+  "license": "ISC"
+}
