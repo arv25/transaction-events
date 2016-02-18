@@ -1,3 +1,5 @@
 node-events-reader/dist/*
 node-events-reader/node_modules/*
+node-events-writer/node_modules/*
+node-events-writer/dist/*
 *.iml
