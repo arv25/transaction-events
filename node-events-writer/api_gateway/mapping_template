@@ -1,0 +1,9 @@
+#set($inputRoot = $input.path('$'))
+{
+  "transaction_id" : $input.json('$.transaction_id'),
+  "store_id" : $input.json('$.store_id'),
+  "last_status" : $input.json('$.last_status'),
+  "transaction_date" : $input.json('$.transaction_date'),
+  "transaction_type" : $input.json('$.transaction_type'),
+  "stage_name" : "${stageVariables.stage_name}"
+}
