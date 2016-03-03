@@ -1,15 +1,14 @@
 var AWS = require('aws-sdk');
 AWS.config.update({region:'us-east-1'});
 var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+var Promise = require('bluebird');
+Promise.promisifyAll(Object.getPrototypeOf(dynamodb));
 
-exports.handler = function(event, context) {
-  console.log("Request received:\n", JSON.stringify(event));
-  console.log("Context received:\n", JSON.stringify(context));    
 
-  var stage_name = event.stage_name;
-  var table_name = [stage_name, "_transaction_events"].join("");
+function construcEventParams(event) {
+  var table_name = [event.stage_name, "_transaction_events"].join("");
 
-  dynamodb.putItem({
+  var params = {
     "TableName": table_name, 
     "Item": {
       "transaction_id": {
@@ -28,18 +27,38 @@ exports.handler = function(event, context) {
         "S": event.last_status
       }
     }
-  }, function(err, data) {
-    if (err) {
-      var failure_msg = ['ERROR: transaction-events::', stage_name, '-node-events-writer failed to complete. - ', err].join("");
+  }
 
-      console.log(failure_msg);
-      context.fail(failure_msg);
-    } else {
-      var output = JSON.stringify(data);
-      var success_msg = ['SUCCESS: transaction-events::', stage_name, '-node-events-writer finished. - ', output].join("");
+  if (event.error_message && event.error_message != '') {
+    params["Item"]["error_message"] = {
+      "S": event.error_message
+    }
+  }
 
-      console.log(success_msg);
-      context.succeed(success_msg);
-    } 
- });
-}
+  return params;
+};
+
+
+function persistEvent(event, context) {
+  var params = construcEventParams(event);
+
+  dynamodb.putItemAsync(params).then(function(data) {
+    var success_msg = ['SUCCESS: transaction-events::', event.stage_name, '-node-events-writer finished.'].join("");
+    console.log(success_msg);
+    context.succeed(success_msg);
+
+  }).catch(function(err) {
+    var failure_msg = ['ERROR: transaction-events::', event.stage_name, '-node-events-writer failed to complete. - ', err].join("");
+    console.log(failure_msg);
+    context.fail(failure_msg);
+  });
+};
+
+
+exports.handler = function(event, context) {
+  console.log("Request received:\n", JSON.stringify(event));
+  console.log("Context received:\n", JSON.stringify(context));
+
+  persistEvent(event, context);
+
+};

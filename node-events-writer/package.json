@@ -2,12 +2,15 @@
   "name": "node-events-writer",
   "version": "1.0.0",
   "description": "Node.js code to write transaction events",
-  "devDependencies": {
-    "grunt": "0.4.*",
-    "grunt-aws-lambda": "0.*.*",
-    "aws-sdk": "2.2.36"
-  }, 
   "main": "index.js",
   "author": "arv25",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "aws-sdk": "2.2.36",
+    "grunt": "0.4.*",
+    "grunt-aws-lambda": "0.*.*"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.3"
+  }
 }

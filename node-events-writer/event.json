@@ -4,5 +4,6 @@
   "transaction_type": "sale",
   "transaction_date": "2016-01-27 16:22:34 UTC",
   "last_status": "422",
-  "stage_name": "beta"
+  "stage_name": "beta",
+  "error_message": "Expected error message"
 }
