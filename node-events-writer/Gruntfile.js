@@ -38,3 +38,4 @@ grunt.initConfig({
 
 grunt.registerTask('deploy',      ['lambda_package:default', 'lambda_deploy:default']);
 grunt.registerTask('deploy_prod', ['lambda_package:prod', 'lambda_deploy:prod']);
+grunt.registerTask('deploy_all',  ['lambda_package:default', 'lambda_deploy:default', 'lambda_package:prod', 'lambda_deploy:prod']);
